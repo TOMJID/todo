@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cabinet: "Cabinet Grotesk", sans-serif;
+}
+@layer components {
+  .li {
+    @apply flex items-center justify-between p-2 transition-colors bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 select-none capitalize;
+  }
+  .icons--container {
+    @apply flex items-center justify-center gap-2 ml-auto;
+  }
+  .icons--hover {
+    @apply hover:bg-indigo-300 rounded-full p-1 transition-colors;
+  }
+  .icons {
+    @apply w-6 h-6 text-indigo-600;
+  }
+}
