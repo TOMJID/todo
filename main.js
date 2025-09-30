@@ -2,6 +2,15 @@ const inputField = document.querySelector("#task__input");
 const addTodo = document.querySelector("#add__task");
 const todoList = document.querySelector("#task__list");
 
+document.addEventListener("DOMContentLoaded", () => {
+  // Load tasks from localStorage when the page loads
+  const storedTasks = localStorage.getItem("tasks");
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+    updateTodoList();
+  }
+});
+
 let tasks = [];
 // saving the tasks to localStorage
 const saveTasks = () => {
@@ -26,10 +35,10 @@ const updateTodoList = () => {
   tasks.forEach((task, index) => {
     const listItems = document.createElement("li");
     listItems.innerHTML = `
-      <div class="li">
+      <div class="li ${task.completed ? "completed" : ""}">
       ${task.text}
       <div class="icons--container">
-        <button class="icons--hover" onclick="deleteTask(${index})">
+        <button class="icons--hover hover:bg-red-400 group" onclick="deleteTask(${index})">
         <!-- Delete Icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +46,7 @@ const updateTodoList = () => {
           viewBox="0 0 24 24"
           stroke-width="2"
           stroke="currentColor"
-          class="icons hover:text-red-900">
+          class="icons text-red-500 group-hover:text-indigo-500">
           <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -45,7 +54,7 @@ const updateTodoList = () => {
           
         </svg>
         </button>
-        <button class="icons--hover" onclick="editTask(${index})">
+        <button class="icons--hover hover:bg-yellow-400 group" onclick="editTask(${index})">
         <!-- Edit Icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +62,7 @@ const updateTodoList = () => {
           viewBox="0 0 24 24"
           stroke-width="2"
           stroke="currentColor"
-          class="icons hover:text-yellow-900">
+          class="icons text-yellow-500 group-hover:text-indigo-500">
           <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -61,7 +70,7 @@ const updateTodoList = () => {
           
         </svg>
         </button>
-        <button class="icons--hover" onclick="completeTask(${index})">
+        <button class="icons--hover hover:bg-green-400 group" onclick="completeTask(${index})">
         <!-- Complete Icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +78,7 @@ const updateTodoList = () => {
           viewBox="0 0 24 24"
           stroke-width="2"
           stroke="currentColor"
-          class="icons hover:text-green-900">
+          class="icons text-green-500 group-hover:text-indigo-500">
           <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -96,19 +105,17 @@ addTodo.addEventListener("click", function (e) {
 completeTask = (index) => {
   tasks[index].completed = !tasks[index].completed;
   updateTodoList();
-  if (tasks[index].completed) {
-    const listItems = todoList.querySelectorAll("li")[index];
-    listItems.style.textDecoration = "line-through";
-    listItems.style.color = "gray";
-  }
+  saveTasks();
 };
 deleteTask = (index) => {
   tasks.splice(index, 1);
   updateTodoList();
+  saveTasks();
 };
 editTask = (index) => {
   inputField.value = tasks[index].text;
   tasks.splice(index, 1);
   updateTodoList();
+  saveTasks();
 };
 
