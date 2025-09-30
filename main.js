@@ -102,17 +102,17 @@ addTodo.addEventListener("click", function (e) {
 
 // completeTask, deleteTask, and editTask functions
 // These functions are called from the HTML onclick attributes
-completeTask = (index) => {
+window.completeTask = (index) => {
   tasks[index].completed = !tasks[index].completed;
   updateTodoList();
   saveTasks();
 };
-deleteTask = (index) => {
+window.deleteTask = (index) => {
   tasks.splice(index, 1);
   updateTodoList();
   saveTasks();
 };
-editTask = (index) => {
+window.editTask = (index) => {
   inputField.value = tasks[index].text;
   tasks.splice(index, 1);
   updateTodoList();
